@@ -27,24 +27,6 @@ const getUsers = async (req, res) => {
     }
 }
 
-const deleteUser = async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const user = await userModel.findByIdAndDelete(id);
-        if (!user) {
-            logger.error(`Usuario no encontrado: ${id}`);
-            return res.status(400).send({ error: `Usuario no encontrado: ${id}` });
-        }
-
-        logger.info(`Usuario eliminado correctamente: ${id}`);
-        return res.status(200).send({ resultado: 'OK', message: 'Usuario eliminado correctamente' });
-    } catch (error) {
-        logger.error(`Error al eliminar usuario: ${error}`);
-        return res.status(500).send({ error: `Error al eliminar usuario: ${error}` });
-    }
-}
-
 const recoveryLinks = {};
 
 const recoveryPassword = async (req, res) => {
@@ -126,6 +108,24 @@ const resetPassword = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await userModel.findByIdAndDelete(id);
+        if (!user) {
+            logger.error(`Usuario no encontrado: ${id}`);
+            return res.status(400).send({ error: `Usuario no encontrado: ${id}` });
+        }
+
+        logger.info(`Usuario eliminado correctamente: ${id}`);
+        return res.status(200).send({ resultado: 'OK', message: 'Usuario eliminado correctamente' });
+    } catch (error) {
+        logger.error(`Error al eliminar usuario: ${error}`);
+        return res.status(500).send({ error: `Error al eliminar usuario: ${error}` });
+    }
+}
+
 const uploadDocuments = async (req, res) => {
     const { id } = req.params;
 
@@ -159,8 +159,8 @@ const uploadDocuments = async (req, res) => {
         logger.error(`Error al actualizar documentos: ${error}`);
         return res.status(500).send({ error: `Error al actualizar documentos: ${error}` });
     }
-};
+}
 
-const usersController = { getUsers, postUser, recoveryPassword, resetPassword, uploadDocuments, deleteUser };
+const usersController = { getUsers, postUser, recoveryPassword, resetPassword, deleteUser, uploadDocuments };
 
 export default usersController;

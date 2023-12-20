@@ -7,12 +7,12 @@ const userRouter = Router();
 
 userRouter.post('/', passport.authenticate('register'), usersController.postUser);
 
-userRouter.get('/', usersController.getUser);
+userRouter.get('/', usersController.getUsers);
 
 userRouter.post('/recovery', usersController.recoveryPassword);
 
 userRouter.post('/resetpassword/:token', usersController.resetPassword);
 
-userRouter.post('/:id/documents', passport.authenticate('jwt', { session: false }), authorization(['user']), upload.fields([{ name: 'documents' }]), uploadDocuments);
+userRouter.post('/api/:uid/documents', upload.array('documents'), usersController.uploadDocuments);
 
 export default userRouter;
